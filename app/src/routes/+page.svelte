@@ -10,28 +10,27 @@
 
   let todos: Todo[] = [];
 
+  let todoName: string;
+  let todoDesc: string;
+
   $: todos;
   $: lastId = todos.length;
 
   function submitButton(e: Event) {
     e.preventDefault();
 
-    const name = (
-      document.querySelector('input[name="name"]') as HTMLInputElement
-    ).value;
-    const description = (
-      document.querySelector('input[name="description"]') as HTMLInputElement
-    ).value;
-
     fetch('http://localhost:3333/todos/create-todo', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ title: name, description }),
+      body: JSON.stringify({ title: todoName, todoDesc }),
     });
 
-    todos = [...todos, { name, description, id: lastId + 1 }];
+    todos = [
+      ...todos,
+      { name: todoName, description: todoDesc, id: lastId + 1 },
+    ];
   }
 
   onMount(async () => {
@@ -57,8 +56,15 @@
 <hr class="bg-slate-300 my-[30px]" />
 
 <form action="" method="post" class="flex flex-col items-center gap-[20px]">
-  <input class="text-box" type="text" name="name" placeholder="Name" />
   <input
+    bind:value={todoName}
+    class="text-box"
+    type="text"
+    name="name"
+    placeholder="Name"
+  />
+  <input
+    bind:value={todoDesc}
     class="text-box"
     type="text"
     name="description"
