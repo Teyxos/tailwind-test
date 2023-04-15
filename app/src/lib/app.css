@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .text-box {
+    @apply w-[320px] p-[5px] outline-[.5px] outline-slate-400 outline rounded-sm;
+  }
+}
